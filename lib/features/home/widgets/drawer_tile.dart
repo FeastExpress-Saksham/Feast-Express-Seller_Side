@@ -18,33 +18,36 @@ class DrawerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      tileColor: Provider.of<HomeProvider>(context).selectedScreenIndex == index
-          ? AppColors.darkPrimaryColor
-          : AppColors.primaryColor,
-      minVerticalPadding: 30,
-      title: Text(
-        tileTitle,
-        style: const TextStyle(
-          color: AppColors.whiteColor,
+    return Tooltip(
+      message: tileTitle,
+      child: ColoredBox(
+        color: Provider.of<HomeProvider>(context).selectedScreenIndex == index
+            ? AppColors.darkPrimaryColor
+            : AppColors.primaryColor,
+        child: ListTile(
+          tileColor:
+              Provider.of<HomeProvider>(context).selectedScreenIndex == index
+                  ? AppColors.darkPrimaryColor
+                  : AppColors.primaryColor,
+          minVerticalPadding: 30,
+          titleAlignment: ListTileTitleAlignment.center,
+          title: Image(
+            image: AssetImage(imageAssetName),
+            color: AppColors.whiteColor,
+            height: 30,
+            alignment: Alignment.bottomCenter,
+            fit: BoxFit.contain,
+          ),
+          onTap: () {
+            if (Provider.of<HomeProvider>(context, listen: false)
+                    .selectedScreenIndex !=
+                index) {
+              Provider.of<HomeProvider>(context, listen: false)
+                  .updateSelectedScreenIndex(index);
+            }
+          },
         ),
       ),
-      titleAlignment: ListTileTitleAlignment.center,
-      leading: Image(
-        image: AssetImage(imageAssetName),
-        color: AppColors.whiteColor,
-        height: 30,
-        alignment: Alignment.bottomCenter,
-        fit: BoxFit.contain,
-      ),
-      onTap: () {
-        if (Provider.of<HomeProvider>(context, listen: false)
-                .selectedScreenIndex !=
-            index) {
-          Provider.of<HomeProvider>(context, listen: false)
-              .updateSelectedScreenIndex(index);
-        }
-      },
     );
   }
 }

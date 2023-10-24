@@ -9,7 +9,6 @@ import 'package:munchmate_admin/providers/home_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/utils/colors.dart';
-import '../widgets/drawer_header.dart';
 import '../widgets/drawer_tile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -52,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(5),
             ),
             child: const SearchBar(
+              elevation: MaterialStatePropertyAll(0),
               leading: Icon(
                 Icons.search,
                 color: AppColors.primaryColor,
@@ -91,64 +91,54 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      drawer: SafeArea(
-        child: Builder(
-          builder: (context) {
-            return Drawer(
-              width: Scaffold.of(context).isDrawerOpen
-                  ? screenWidth * 0.15
-                  : screenWidth * 0.05,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
-                ),
-              ),
-              backgroundColor: AppColors.primaryColor,
-              shadowColor: Colors.transparent,
-              elevation: 0.0,
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  DrawerHeaderWidget(screenWidth: screenWidth),
-                  SizedBox(
-                    height: screenHeight * 0.6,
-                    child: ListView.builder(
-                      itemCount: screens.length,
-                      itemBuilder: (context, index) {
-                        return DrawerTile(
-                          tileTitle: screens[index].tileTitle,
-                          imageAssetName: screens[index].imageAssetName,
-                          index: index,
-                        );
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: const Text(
-                      'Logout',
-                      style: TextStyle(
-                        color: AppColors.whiteColor,
-                      ),
-                    ),
-                    leading: const Image(
-                      image: AssetImage("assets/images/logout.png"),
-                      color: AppColors.whiteColor,
-                      height: 30,
-                      fit: BoxFit.contain,
-                    ),
-                    onTap: () {
-                      // Navigator.pop(context);
-                    },
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
-      ),
       body: SafeArea(
-        child: screens[_selectedScreenIndex],
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Builder(
+              builder: (context) {
+                return Container(
+                  width: screenWidth * 0.05,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primaryColor,
+                  ),
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(),
+                    children: [
+                      SizedBox(
+                        height: screenHeight * 0.6,
+                        child: ListView.builder(
+                          itemCount: screens.length,
+                          itemBuilder: (context, index) {
+                            return DrawerTile(
+                              tileTitle: screens[index].tileTitle,
+                              imageAssetName: screens[index].imageAssetName,
+                              index: index,
+                            );
+                          },
+                        ),
+                      ),
+                      Tooltip(
+                        message: "Logout",
+                        child: ListTile(
+                          titleAlignment: ListTileTitleAlignment.center,
+                          title: const Image(
+                            image: AssetImage("assets/images/logout.png"),
+                            color: AppColors.whiteColor,
+                            height: 30,
+                            fit: BoxFit.contain,
+                          ),
+                          onTap: () {},
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            screens[_selectedScreenIndex],
+          ],
+        ),
       ),
     );
   }
