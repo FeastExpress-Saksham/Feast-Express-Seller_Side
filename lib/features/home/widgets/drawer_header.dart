@@ -51,16 +51,6 @@ class DrawerHeaderWidget extends StatelessWidget {
               ),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "ved2112073@akgec.ac.in",
-              style: TextStyle(
-                fontSize: screenWidth * 0.01,
-                color: AppColors.whiteColor,
-              ),
-            ),
-          ),
         ],
       ),
     );

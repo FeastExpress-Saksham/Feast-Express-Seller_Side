@@ -9,16 +9,17 @@ class DrawerTile extends StatelessWidget {
     super.key,
     required this.tileTitle,
     required this.imageAssetName,
+    required this.index,
   });
 
   final String tileTitle;
+  final int index;
   final String imageAssetName;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      tileColor: Provider.of<HomeProvider>(context).selectedScreenTileTitle ==
-              tileTitle
+      tileColor: Provider.of<HomeProvider>(context).selectedScreenIndex == index
           ? AppColors.darkPrimaryColor
           : AppColors.primaryColor,
       minVerticalPadding: 30,
@@ -38,10 +39,10 @@ class DrawerTile extends StatelessWidget {
       ),
       onTap: () {
         if (Provider.of<HomeProvider>(context, listen: false)
-                .selectedScreenTileTitle !=
-            tileTitle) {
+                .selectedScreenIndex !=
+            index) {
           Provider.of<HomeProvider>(context, listen: false)
-              .updateSelectedScreenIndex(tileTitle);
+              .updateSelectedScreenIndex(index);
         }
       },
     );

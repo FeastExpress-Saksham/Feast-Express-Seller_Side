@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class HomeProvider extends ChangeNotifier {
-  String _selectedScreenTileTitle = "Dashboard";
+  int _selectedScreenIndex = 0;
 
-  void updateSelectedScreenIndex(String newTileTitle) {
-    _selectedScreenTileTitle = newTileTitle;
+  void updateSelectedScreenIndex(int newIndex) {
+    _selectedScreenIndex = newIndex;
     notifyListeners();
   }
 
-  get selectedScreenTileTitle => _selectedScreenTileTitle;
+  get selectedScreenIndex => _selectedScreenIndex;
 }
