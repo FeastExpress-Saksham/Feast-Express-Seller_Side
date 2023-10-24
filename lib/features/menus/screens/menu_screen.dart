@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:munchmate_admin/common/utils/colors.dart';
+import 'package:munchmate_admin/providers/menu_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/item.dart';
+import '../widgets/add_item_dialog.dart';
 
 class MenuScreen extends StatefulWidget {
   final String tileTitle = "Menu";
@@ -13,12 +16,6 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  final List<TextEditingController> textEditingControllers =
-      List<TextEditingController>.generate(
-    4,
-    (index) => TextEditingController(),
-  );
-
   final List<String> tableHeadings = [
     "ItemID",
     "Category",
@@ -31,32 +28,17 @@ class _MenuScreenState extends State<MenuScreen> {
     "Options"
   ];
 
-  final List<Item> items = [
-    Item(
-      id: "1",
-      name: "Chhole Bhature",
-      category: "Meals",
-      price: 60,
-      imageUrl:
-          "https://tse4.mm.bing.net/th?id=OIP.GfIF5YZwxLwFKwW3RJndIgHaFj&pid=Api&P=0&h=180",
-      isAvailable: false,
-      totalQuantity: 50,
-      deliveredQuantity: 10,
-    ),
-    Item(
-      id: "2",
-      name: "Chhole Kulche",
-      category: "Snacks",
-      price: 40,
-      imageUrl:
-          "https://tse4.mm.bing.net/th?id=OIP.GfIF5YZwxLwFKwW3RJndIgHaFj&pid=Api&P=0&h=180",
-      isAvailable: false,
-      totalQuantity: 50,
-      deliveredQuantity: 10,
-    ),
-  ];
+  List<Item> items = [];
+
+  @override
+  void didChangeDependencies() {
+    Provider.of<MenuProvider>(context, listen: false).getItems();
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
+    items = Provider.of<MenuProvider>(context).items;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Expanded(
@@ -97,175 +79,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         onPressed: () {
                           showDialog(
                             context: context,
-                            builder: (context) => Dialog(
-                              backgroundColor: AppColors.whiteColor,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Column(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      "Add Item",
-                                      style: TextStyle(
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    Form(
-                                      child: Container(
-                                        margin: const EdgeInsets.all(20),
-                                        width: screenWidth * 0.35,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Stack(
-                                              alignment: Alignment.bottomRight,
-                                              children: [
-                                                Container(
-                                                  height: 100,
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    color:
-                                                        AppColors.primaryColor,
-                                                  ),
-                                                  child: Image.asset(
-                                                    "assets/images/food.png",
-                                                    color: AppColors.whiteColor,
-                                                  ),
-                                                ),
-                                                GestureDetector(
-                                                  onTap: () {},
-                                                  child: const Icon(
-                                                    Icons.camera_alt_rounded,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.fromLTRB(
-                                                  15, 25, 15, 15),
-                                              width: screenWidth * 0.2,
-                                              child: TextFormField(
-                                                autofocus: true,
-                                                controller:
-                                                    textEditingControllers[0],
-                                                textCapitalization:
-                                                    TextCapitalization.words,
-                                                textAlignVertical:
-                                                    TextAlignVertical.center,
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                  ),
-                                                  labelText: "Item Name",
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.all(15),
-                                              child: DropdownMenu(
-                                                controller:
-                                                    textEditingControllers[1],
-                                                label: const Text("Category"),
-                                                width: screenWidth * 0.2,
-                                                textStyle: const TextStyle(
-                                                  fontSize: 16,
-                                                ),
-                                                dropdownMenuEntries: const [
-                                                  DropdownMenuEntry(
-                                                    value: "Snacks",
-                                                    label: "Snacks",
-                                                  ),
-                                                  DropdownMenuEntry(
-                                                    value: "Drinks",
-                                                    label: "Drinks",
-                                                  ),
-                                                  DropdownMenuEntry(
-                                                    value: "Meals",
-                                                    label: "Meals",
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.all(15),
-                                              width: screenWidth * 0.2,
-                                              child: TextFormField(
-                                                controller:
-                                                    textEditingControllers[2],
-                                                textCapitalization:
-                                                    TextCapitalization.words,
-                                                textAlignVertical:
-                                                    TextAlignVertical.center,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                  ),
-                                                  labelText: "Price",
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.all(15),
-                                              width: screenWidth * 0.2,
-                                              child: TextFormField(
-                                                controller:
-                                                    textEditingControllers[3],
-                                                textCapitalization:
-                                                    TextCapitalization.words,
-                                                textAlignVertical:
-                                                    TextAlignVertical.center,
-                                                keyboardType:
-                                                    TextInputType.number,
-                                                textInputAction:
-                                                    TextInputAction.done,
-                                                decoration: InputDecoration(
-                                                  border: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                  ),
-                                                  labelText: "Quantity",
-                                                ),
-                                              ),
-                                            ),
-                                            Container(
-                                              margin: const EdgeInsets.all(15),
-                                              width: screenWidth * 0.2,
-                                              child: ElevatedButton(
-                                                onPressed: () {},
-                                                child: Container(
-                                                  padding: EdgeInsets.all(8),
-                                                  child: const Text(
-                                                    "Add",
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
+                            builder: (context) => const AddItemDialog(),
                           );
                         },
                         child: const Text(

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:munchmate_admin/common/utils/colors.dart';
 import 'package:munchmate_admin/providers/home_provider.dart';
+import 'package:munchmate_admin/providers/menu_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'features/home/screens/home_screen.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => HomeProvider()),
+        ChangeNotifierProvider(create: (context) => MenuProvider()),
       ],
       child: MaterialApp(
         title: 'MunchMate Admin',
