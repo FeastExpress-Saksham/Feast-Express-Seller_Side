@@ -27,7 +27,6 @@ class _MenuScreenState extends State<MenuScreen> {
     "Total Quantity",
     "Options"
   ];
-
   List<Item> items = [];
 
   @override
@@ -94,13 +93,28 @@ class _MenuScreenState extends State<MenuScreen> {
                       defaultVerticalAlignment:
                           TableCellVerticalAlignment.middle,
                       children: List<TableRow>.generate(
-                        items.length + 1,
+                        Provider.of<MenuProvider>(context).items.length + 1,
                         (index) {
+                          List<List<bool>> isAvailable =
+                              List<List<bool>>.generate(
+                            Provider.of<MenuProvider>(context).items.length,
+                            (ind) => [
+                              Provider.of<MenuProvider>(context)
+                                      .items[ind]
+                                      .isAvailable ==
+                                  true,
+                              Provider.of<MenuProvider>(context)
+                                      .items[ind]
+                                      .isAvailable ==
+                                  false,
+                            ],
+                          );
                           return (index == 0)
                               ? TableRow(
                                   children: List<Widget>.generate(
                                     tableHeadings.length,
                                     (index) => Container(
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsets.symmetric(
                                           vertical: 8, horizontal: 5),
                                       child: Text(
@@ -115,12 +129,14 @@ class _MenuScreenState extends State<MenuScreen> {
                               : TableRow(
                                   children: [
                                     Container(
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsets.all(5),
                                       child: Text(
                                         items[index - 1].id,
                                       ),
                                     ),
                                     Container(
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsets.all(5),
                                       child: Text(
                                         items[index - 1].category,
@@ -128,31 +144,67 @@ class _MenuScreenState extends State<MenuScreen> {
                                     ),
                                     Container(
                                       margin: const EdgeInsets.all(5),
-                                      alignment: Alignment.centerLeft,
+                                      alignment: Alignment.center,
                                       child: CircleAvatar(
                                         backgroundImage: NetworkImage(
                                             items[index - 1].imageUrl),
                                       ),
                                     ),
                                     Container(
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsets.all(5),
                                       child: Text(
                                         items[index - 1].name,
                                       ),
                                     ),
                                     Container(
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsets.all(5),
                                       child: Text(
                                         items[index - 1].price.toString(),
                                       ),
                                     ),
                                     Container(
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsets.all(5),
-                                      child: Text(
-                                        items[index - 1].isAvailable.toString(),
+                                      child: ToggleButtons(
+                                        color: AppColors.primaryColor,
+                                        fillColor:
+                                            isAvailable[index - 1][0] == true
+                                                ? Colors.green
+                                                : Colors.red,
+                                        onPressed: (i) {
+                                          Provider.of<MenuProvider>(context,
+                                                  listen: false)
+                                              .toggleAvailability(index - 1);
+                                        },
+                                        isSelected: isAvailable[index - 1],
+                                        children: [
+                                          Text(
+                                            "Yes",
+                                            style: TextStyle(
+                                              color: isAvailable[index - 1]
+                                                          [0] ==
+                                                      true
+                                                  ? AppColors.whiteColor
+                                                  : AppColors.blackColor,
+                                            ),
+                                          ),
+                                          Text(
+                                            "No",
+                                            style: TextStyle(
+                                              color: isAvailable[index - 1]
+                                                          [0] ==
+                                                      true
+                                                  ? AppColors.blackColor
+                                                  : AppColors.whiteColor,
+                                            ),
+                                          )
+                                        ],
                                       ),
                                     ),
                                     Container(
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsets.all(5),
                                       child: Text(
                                         items[index - 1]
@@ -161,6 +213,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                       ),
                                     ),
                                     Container(
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsets.all(5),
                                       child: Text(
                                         items[index - 1]
@@ -169,8 +222,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                       ),
                                     ),
                                     Container(
+                                      alignment: Alignment.center,
                                       margin: const EdgeInsets.all(5),
-                                      alignment: Alignment.centerLeft,
                                       child: ElevatedButton(
                                         onPressed: () {},
                                         child: const Text(

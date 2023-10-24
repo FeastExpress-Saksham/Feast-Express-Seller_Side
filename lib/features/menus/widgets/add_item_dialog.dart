@@ -129,6 +129,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                     Container(
                       margin: const EdgeInsets.all(15),
                       child: DropdownMenu(
+                        enableSearch: false,
                         controller: textEditingControllers[1],
                         label: const Text("Category"),
                         width: screenWidth * 0.2,

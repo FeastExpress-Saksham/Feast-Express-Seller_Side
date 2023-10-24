@@ -10,7 +10,7 @@ class MenuServices {
   Future<void> addItem(Item item) async {
     DatabaseReference databaseReference =
         FirebaseDatabase.instance.ref("items/${item.id}");
-    databaseReference.set(item.toJson());
+    databaseReference.set(item.toMap());
   }
 
   Future<List<Item>> getItems() async {
@@ -25,7 +25,8 @@ class MenuServices {
         if (res["ITEM$i"] == null) {
           break;
         }
-        items.add(Item.fromJson(res["ITEM$i"]));
+
+        items.add(Item.fromMap(res["ITEM$i"]));
         i++;
       }
     });
@@ -38,5 +39,11 @@ class MenuServices {
     final snapshot = await uploadTask.whenComplete(() {});
     final imageUrl = await snapshot.ref.getDownloadURL();
     return imageUrl;
+  }
+
+  Future<void> changeAvailability(String itemID, bool isAvailable) async {
+    DatabaseReference databaseReference =
+        FirebaseDatabase.instance.ref("items/$itemID");
+    await databaseReference.update({"isAvailable": isAvailable});
   }
 }

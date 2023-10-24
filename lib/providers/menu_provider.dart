@@ -25,6 +25,12 @@ class MenuProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void toggleAvailability(int index) async {
+    await menuServices.changeAvailability(
+        _items[index].id, !_items[index].isAvailable);
+    notifyListeners();
+  }
+
   get items => _items;
   get imageUrl => _imageUrl;
 }
