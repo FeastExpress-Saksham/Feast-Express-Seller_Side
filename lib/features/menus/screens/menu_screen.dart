@@ -13,6 +13,12 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+  final List<TextEditingController> textEditingControllers =
+      List<TextEditingController>.generate(
+    4,
+    (index) => TextEditingController(),
+  );
+
   final List<String> tableHeadings = [
     "ItemID",
     "Category",
@@ -92,23 +98,168 @@ class _MenuScreenState extends State<MenuScreen> {
                           showDialog(
                             context: context,
                             builder: (context) => Dialog(
-                              child: Container(
+                              backgroundColor: AppColors.whiteColor,
+                              child: Padding(
                                 padding: const EdgeInsets.all(20),
-                                height: screenHeight * 0.7,
-                                width: screenWidth * 0.5,
-                                child: const Column(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "Add Item",
                                       style: TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 25,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                     Form(
-                                      child: Column(
-                                        children: [],
+                                      child: Container(
+                                        margin: const EdgeInsets.all(20),
+                                        width: screenWidth * 0.35,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Stack(
+                                              alignment: Alignment.bottomRight,
+                                              children: [
+                                                Container(
+                                                  height: 100,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                  ),
+                                                  child: Image.asset(
+                                                    "assets/images/food.png",
+                                                    color: AppColors.whiteColor,
+                                                  ),
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {},
+                                                  child: const Icon(
+                                                    Icons.camera_alt_rounded,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  15, 25, 15, 15),
+                                              width: screenWidth * 0.2,
+                                              child: TextFormField(
+                                                autofocus: true,
+                                                controller:
+                                                    textEditingControllers[0],
+                                                textCapitalization:
+                                                    TextCapitalization.words,
+                                                textAlignVertical:
+                                                    TextAlignVertical.center,
+                                                keyboardType:
+                                                    TextInputType.text,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  labelText: "Item Name",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.all(15),
+                                              child: DropdownMenu(
+                                                controller:
+                                                    textEditingControllers[1],
+                                                label: const Text("Category"),
+                                                width: screenWidth * 0.2,
+                                                textStyle: const TextStyle(
+                                                  fontSize: 16,
+                                                ),
+                                                dropdownMenuEntries: const [
+                                                  DropdownMenuEntry(
+                                                    value: "Snacks",
+                                                    label: "Snacks",
+                                                  ),
+                                                  DropdownMenuEntry(
+                                                    value: "Drinks",
+                                                    label: "Drinks",
+                                                  ),
+                                                  DropdownMenuEntry(
+                                                    value: "Meals",
+                                                    label: "Meals",
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.all(15),
+                                              width: screenWidth * 0.2,
+                                              child: TextFormField(
+                                                controller:
+                                                    textEditingControllers[2],
+                                                textCapitalization:
+                                                    TextCapitalization.words,
+                                                textAlignVertical:
+                                                    TextAlignVertical.center,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                textInputAction:
+                                                    TextInputAction.next,
+                                                decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  labelText: "Price",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.all(15),
+                                              width: screenWidth * 0.2,
+                                              child: TextFormField(
+                                                controller:
+                                                    textEditingControllers[3],
+                                                textCapitalization:
+                                                    TextCapitalization.words,
+                                                textAlignVertical:
+                                                    TextAlignVertical.center,
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                textInputAction:
+                                                    TextInputAction.done,
+                                                decoration: InputDecoration(
+                                                  border: OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            5),
+                                                  ),
+                                                  labelText: "Quantity",
+                                                ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.all(15),
+                                              width: screenWidth * 0.2,
+                                              child: ElevatedButton(
+                                                onPressed: () {},
+                                                child: Container(
+                                                  padding: EdgeInsets.all(8),
+                                                  child: const Text(
+                                                    "Add",
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
