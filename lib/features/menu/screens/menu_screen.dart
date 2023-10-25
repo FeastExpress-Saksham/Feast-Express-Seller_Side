@@ -254,7 +254,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             Tooltip(
                               message: "Edit Item",
                               child: Container(
-                                height: 30,
+                                height: 35,
                                 decoration: const BoxDecoration(
                                   shape: BoxShape.circle,
                                 ),
@@ -269,7 +269,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                   },
                                   child: const Icon(
                                     Icons.edit,
-                                    size: 15,
+                                    size: 20,
                                   ),
                                 ),
                               ),
