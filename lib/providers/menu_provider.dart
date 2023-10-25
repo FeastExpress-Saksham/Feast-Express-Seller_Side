@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:munchmate_admin/features/menus/services/menu_services.dart';
+import 'package:munchmate_admin/features/menu/services/menu_services.dart';
 
 import '../models/item.dart';
 
@@ -17,6 +17,11 @@ class MenuProvider extends ChangeNotifier {
 
   void addItem(Item item) async {
     await menuServices.addItem(item);
+    notifyListeners();
+  }
+
+  void updateItem(Item item) async {
+    await menuServices.updateItem(item);
     notifyListeners();
   }
 

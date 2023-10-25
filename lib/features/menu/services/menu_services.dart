@@ -13,6 +13,12 @@ class MenuServices {
     databaseReference.set(item.toMap());
   }
 
+  Future<void> updateItem(Item item) async {
+    DatabaseReference databaseReference =
+        FirebaseDatabase.instance.ref("items/${item.id}");
+    databaseReference.update(item.toMap());
+  }
+
   Future<List<Item>> getItems() async {
     DatabaseReference databaseReference =
         FirebaseDatabase.instance.ref("items");
@@ -25,7 +31,6 @@ class MenuServices {
         if (res["ITEM$i"] == null) {
           break;
         }
-
         items.add(Item.fromMap(res["ITEM$i"]));
         i++;
       }

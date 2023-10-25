@@ -2,13 +2,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:munchmate_admin/features/contactUs/screens/contact_us_screen.dart';
 import 'package:munchmate_admin/features/dashboard/screens/dashboard_screen.dart';
-import 'package:munchmate_admin/features/menus/screens/menu_screen.dart';
 import 'package:munchmate_admin/features/recentOrders/screens/recent_orders_screen.dart';
 import 'package:munchmate_admin/features/reportProblem/screens/report_problem_screen.dart';
 import 'package:munchmate_admin/providers/home_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/utils/colors.dart';
+import '../../menu/screens/menu_screen.dart';
 import '../widgets/drawer_tile.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,6 +43,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
         elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: CircleAvatar(
+            radius: screenWidth * 0.02,
+            backgroundImage: const NetworkImage(
+              "https://thumbs.dreamstime.com/z/smiling-teen-boy-character-portrait-d-cartoon-style-handsome-generic-white-clean-background-digital-painting-movies-281956632.jpg",
+            ),
+          ),
+        ),
         title: const Text("Welcome, Ved"),
         actions: [
           Container(
@@ -58,12 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          const SizedBox(
-            width: 50,
-          ),
           GestureDetector(
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               height: 40,
               width: 40,
               decoration: const BoxDecoration(
@@ -77,14 +83,14 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 20),
               height: 40,
               width: 40,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
               ),
               child: const Icon(
-                Icons.notifications_none_outlined,
+                Icons.logout_rounded,
                 color: AppColors.whiteColor,
               ),
             ),
@@ -116,19 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               index: index,
                             );
                           },
-                        ),
-                      ),
-                      Tooltip(
-                        message: "Logout",
-                        child: ListTile(
-                          titleAlignment: ListTileTitleAlignment.center,
-                          title: const Image(
-                            image: AssetImage("assets/images/logout.png"),
-                            color: AppColors.whiteColor,
-                            height: 30,
-                            fit: BoxFit.contain,
-                          ),
-                          onTap: () {},
                         ),
                       ),
                     ],

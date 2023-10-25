@@ -37,6 +37,16 @@ class _AddItemDialogState extends State<AddItemDialog> {
     4,
     (index) => TextEditingController(),
   );
+
+  @override
+  void dispose() {
+    for (TextEditingController textEditingController
+        in textEditingControllers) {
+      textEditingController.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
