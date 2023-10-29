@@ -17,8 +17,8 @@ class OrderProvider extends ChangeNotifier {
   }
 
   void toggleAvailability(int index) async {
-    // await recentOrdersServices.changeAvailability(
-    //     _items[index].id, !_items[index].isAvailable);
+    await recentOrdersServices.changeAvailability(
+        _lastOrders[index].id, !_lastOrders[index].isDelivered);
     notifyListeners();
   }
 
