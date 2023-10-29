@@ -31,13 +31,8 @@ class _MenuScreenState extends State<MenuScreen> {
   List<Item> items = [];
 
   @override
-  void didChangeDependencies() {
-    Provider.of<MenuProvider>(context, listen: false).getItems();
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    Provider.of<MenuProvider>(context, listen: false).getItems();
     items = Provider.of<MenuProvider>(context).items;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;

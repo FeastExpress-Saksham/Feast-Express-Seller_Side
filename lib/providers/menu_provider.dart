@@ -30,6 +30,7 @@ class MenuProvider extends ChangeNotifier {
     if (_items.isEmpty) {
       _items = realTimeItems;
     }
+    notifyListeners();
   }
 
   void toggleAvailability(int index) async {
