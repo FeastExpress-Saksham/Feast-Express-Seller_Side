@@ -106,20 +106,14 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                       4: IntrinsicColumnWidth(flex: 1.25),
                     },
                     children: List<TableRow>.generate(
-                      Provider.of<OrderProvider>(context).lastOrders.length,
+                      lastOrders.length,
                       (index) {
                         List<List<bool>> isDelivered =
                             List<List<bool>>.generate(
-                          Provider.of<OrderProvider>(context).lastOrders.length,
+                          lastOrders.length,
                           (ind) => [
-                            Provider.of<OrderProvider>(context)
-                                    .lastOrders[ind]
-                                    .isDelivered ==
-                                true,
-                            Provider.of<OrderProvider>(context)
-                                    .lastOrders[ind]
-                                    .isDelivered ==
-                                false,
+                            lastOrders[ind].isDelivered == true,
+                            lastOrders[ind].isDelivered == false,
                           ],
                         );
                         DateTime orderDateTime =
@@ -285,7 +279,7 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                                 onPressed: (i) {
                                   Provider.of<OrderProvider>(context,
                                           listen: false)
-                                      .toggleAvailability(index);
+                                      .toggleDeliveryStatus(lastOrders[index]);
                                 },
                                 isSelected: isDelivered[index],
                                 children: [
