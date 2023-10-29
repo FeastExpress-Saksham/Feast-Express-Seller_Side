@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:munchmate_admin/providers/home_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/constants.dart';
 import '../../../common/utils/colors.dart';
 import '../../../models/order.dart';
 import '../../../models/user.dart';
@@ -18,11 +19,10 @@ class RecentOrdersScreen extends StatefulWidget {
 
 class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
   final List<String> tableHeadings = [
-    "Photo",
-    "Name",
-    "Order Info",
+    "Ordered At",
+    "Order ID",
+    "Ordered By",
     "Items",
-    "Quantity",
     "Price",
     "Total Price",
     "Delivered",
@@ -63,8 +63,8 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 columnWidths: const {
-                  3: IntrinsicColumnWidth(flex: 1.3),
-                  4: IntrinsicColumnWidth(flex: 0.01),
+                  0: IntrinsicColumnWidth(flex: 0.85),
+                  3: IntrinsicColumnWidth(flex: 2),
                 },
                 children: [
                   TableRow(
@@ -102,7 +102,8 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                   child: Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                     columnWidths: const {
-                      3: IntrinsicColumnWidth(flex: 3),
+                      3: IntrinsicColumnWidth(flex: 3.5),
+                      4: IntrinsicColumnWidth(flex: 1.25),
                     },
                     children: List<TableRow>.generate(
                       Provider.of<OrderProvider>(context).lastOrders.length,
@@ -121,35 +122,30 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                                 false,
                           ],
                         );
+                        DateTime orderDateTime =
+                            DateTime.fromMillisecondsSinceEpoch(
+                                lastOrders[index].dateTime);
+                        if (localUsers[lastOrders[index].orderedBy] == null) {
+                          return TableRow(
+                            children: List.generate(
+                              tableHeadings.length,
+                              (index) => Container(),
+                            ),
+                          );
+                        }
                         return TableRow(
                           decoration: const BoxDecoration(
-                            border: Border.symmetric(
-                              horizontal: BorderSide(
-                                  color: AppColors.primaryColor, width: 0.2),
+                            border: Border.fromBorderSide(
+                              BorderSide(
+                                  color: AppColors.primaryColor, width: 0.001),
                             ),
                           ),
                           children: [
                             Container(
-                              margin: const EdgeInsets.fromLTRB(5, 5, 10, 5),
-                              height: 55,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: AppColors.primaryColor,
-                              ),
-                              alignment: Alignment.center,
-                              child: CircleAvatar(
-                                radius: 26,
-                                backgroundImage: NetworkImage(
-                                  localUsers[lastOrders[index].orderedBy]!
-                                      .photoURL,
-                                ),
-                              ),
-                            ),
-                            Container(
                               alignment: Alignment.center,
                               margin: const EdgeInsets.all(5),
                               child: Text(
-                                localUsers[lastOrders[index].orderedBy]!.name,
+                                "${(orderDateTime.hour > 12) ? (orderDateTime.hour - 12 < 10) ? '0${orderDateTime.hour - 12}' : orderDateTime.hour - 12 : orderDateTime.hour}:${(orderDateTime.minute < 10) ? '0${orderDateTime.minute}' : orderDateTime.minute} ${(orderDateTime.hour > 12) ? "PM" : "AM"}\n${weekDaysName[orderDateTime.weekday - 1]}\n${orderDateTime.day} ${monthsName[orderDateTime.month - 1]} ${orderDateTime.year}",
                                 style: const TextStyle(
                                   fontSize: 15,
                                 ),
@@ -158,27 +154,44 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                             Container(
                               alignment: Alignment.center,
                               margin: const EdgeInsets.all(5),
-                              child: Column(
+                              child: Text(
+                                lastOrders[index].id.replaceRange(0, 20, ""),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.all(5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                                    height: 40,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: AppColors.primaryColor,
+                                    ),
                                     alignment: Alignment.center,
-                                    margin: const EdgeInsets.all(5),
-                                    child: Text(
-                                      lastOrders[index]
-                                          .id
-                                          .replaceRange(0, 20, ""),
-                                      style: const TextStyle(
-                                        fontSize: 15,
+                                    child: CircleAvatar(
+                                      radius: 18,
+                                      backgroundImage: NetworkImage(
+                                        localUsers[lastOrders[index].orderedBy]!
+                                            .photoURL,
                                       ),
                                     ),
                                   ),
                                   Container(
                                     alignment: Alignment.center,
-                                    margin: const EdgeInsets.all(5),
                                     child: Text(
-                                      lastOrders[index]
-                                          .id
-                                          .replaceRange(0, 20, ""),
+                                      localUsers[lastOrders[index].orderedBy]!
+                                          .name
+                                          .split(" ")
+                                          .first,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(
                                         fontSize: 15,
                                       ),
@@ -195,8 +208,8 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                                 (ind) => TableRow(
                                   children: [
                                     Container(
-                                      margin: const EdgeInsets.fromLTRB(
-                                          5, 5, 10, 5),
+                                      margin:
+                                          const EdgeInsets.fromLTRB(5, 5, 0, 5),
                                       height: 40,
                                       decoration: const BoxDecoration(
                                         shape: BoxShape.circle,
@@ -217,6 +230,7 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                                         lastOrders[index].items[ind].name,
                                         style: const TextStyle(
                                           fontSize: 15,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
                                     ),
@@ -224,7 +238,9 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                                       alignment: Alignment.center,
                                       margin: const EdgeInsets.all(5),
                                       child: Text(
-                                        "${lastOrders[index].itemCounts[ind].toString()}",
+                                        lastOrders[index]
+                                            .itemCounts[ind]
+                                            .toString(),
                                         style: const TextStyle(
                                           fontSize: 15,
                                         ),
