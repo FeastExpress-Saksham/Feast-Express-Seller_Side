@@ -9,6 +9,7 @@ class Item {
   final bool isAvailable;
   final int totalQuantity;
   final int deliveredQuantity;
+  final int lastUpdated;
   Item({
     required this.id,
     required this.name,
@@ -18,6 +19,7 @@ class Item {
     required this.isAvailable,
     required this.totalQuantity,
     required this.deliveredQuantity,
+    required this.lastUpdated,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,6 +33,7 @@ class Item {
     result.addAll({'isAvailable': isAvailable});
     result.addAll({'totalQuantity': totalQuantity});
     result.addAll({'deliveredQuantity': deliveredQuantity});
+    result.addAll({'lastUpdated': lastUpdated});
   
     return result;
   }
@@ -45,6 +48,7 @@ class Item {
       isAvailable: map['isAvailable'] ?? false,
       totalQuantity: map['totalQuantity']?.toInt() ?? 0,
       deliveredQuantity: map['deliveredQuantity']?.toInt() ?? 0,
+      lastUpdated: map['lastUpdated']?.toInt() ?? 0,
     );
   }
 
@@ -61,6 +65,7 @@ class Item {
     bool? isAvailable,
     int? totalQuantity,
     int? deliveredQuantity,
+    int? lastUpdated,
   }) {
     return Item(
       id: id ?? this.id,
@@ -71,12 +76,13 @@ class Item {
       isAvailable: isAvailable ?? this.isAvailable,
       totalQuantity: totalQuantity ?? this.totalQuantity,
       deliveredQuantity: deliveredQuantity ?? this.deliveredQuantity,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
     );
   }
 
   @override
   String toString() {
-    return 'Item(id: $id, name: $name, category: $category, price: $price, imageUrl: $imageUrl, isAvailable: $isAvailable, totalQuantity: $totalQuantity, deliveredQuantity: $deliveredQuantity)';
+    return 'Item(id: $id, name: $name, category: $category, price: $price, imageUrl: $imageUrl, isAvailable: $isAvailable, totalQuantity: $totalQuantity, deliveredQuantity: $deliveredQuantity, lastUpdated: $lastUpdated)';
   }
 
   @override
@@ -91,7 +97,8 @@ class Item {
       other.imageUrl == imageUrl &&
       other.isAvailable == isAvailable &&
       other.totalQuantity == totalQuantity &&
-      other.deliveredQuantity == deliveredQuantity;
+      other.deliveredQuantity == deliveredQuantity &&
+      other.lastUpdated == lastUpdated;
   }
 
   @override
@@ -103,6 +110,7 @@ class Item {
       imageUrl.hashCode ^
       isAvailable.hashCode ^
       totalQuantity.hashCode ^
-      deliveredQuantity.hashCode;
+      deliveredQuantity.hashCode ^
+      lastUpdated.hashCode;
   }
 }

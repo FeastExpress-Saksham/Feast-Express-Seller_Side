@@ -260,10 +260,13 @@ class _EditItemDialogState extends State<EditItemDialog> {
                                         textEditingControllers[3].text),
                                     deliveredQuantity:
                                         widget.item.deliveredQuantity,
+                                    lastUpdated: DateTime.now()
+                                        .toUtc()
+                                        .millisecondsSinceEpoch,
                                   );
                                   Provider.of<MenuProvider>(context,
                                           listen: false)
-                                      .addItem(item);
+                                      .updateItem(item);
                                   Navigator.pop(context);
                                 },
                                 child: Container(

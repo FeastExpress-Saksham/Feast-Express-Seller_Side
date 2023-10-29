@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:munchmate_admin/common/utils/colors.dart';
+import 'package:munchmate_admin/features/contactUs/screens/contact_us_screen.dart';
 import 'package:munchmate_admin/providers/home_provider.dart';
 import 'package:munchmate_admin/providers/menu_provider.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +49,15 @@ class MyApp extends StatelessWidget {
           ),
           textTheme: GoogleFonts.lexendTextTheme(),
         ),
-        home: const HomeScreen(),
+        home: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+            if (constraints.maxWidth > 1100) {
+              return const HomeScreen();
+            } else {
+              return const ContactUsScreen();
+            }
+          },
+        ),
       ),
     );
   }

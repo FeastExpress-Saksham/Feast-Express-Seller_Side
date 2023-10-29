@@ -26,8 +26,10 @@ class MenuProvider extends ChangeNotifier {
   }
 
   void getItems() async {
-    _items = await menuServices.getItems();
-    notifyListeners();
+    List<Item> realTimeItems = await menuServices.getItems();
+    if (_items.isEmpty) {
+      _items = realTimeItems;
+    }
   }
 
   void toggleAvailability(int index) async {

@@ -50,6 +50,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    int noOfItems = Provider.of<MenuProvider>(context).items.length;
     return Dialog(
       backgroundColor: AppColors.whiteColor,
       child: Padding(
@@ -201,10 +202,6 @@ class _AddItemDialogState extends State<AddItemDialog> {
                       width: screenWidth * 0.2,
                       child: ElevatedButton(
                         onPressed: () {
-                          int noOfItems =
-                              Provider.of<MenuProvider>(context, listen: false)
-                                  .items
-                                  .length;
                           Item item = Item(
                             id: "ITEM${noOfItems + 1}",
                             name: textEditingControllers[0].text,
@@ -217,6 +214,8 @@ class _AddItemDialogState extends State<AddItemDialog> {
                             totalQuantity:
                                 int.parse(textEditingControllers[3].text),
                             deliveredQuantity: 0,
+                            lastUpdated:
+                                DateTime.now().toUtc().millisecondsSinceEpoch,
                           );
                           Provider.of<MenuProvider>(context, listen: false)
                               .addItem(item);

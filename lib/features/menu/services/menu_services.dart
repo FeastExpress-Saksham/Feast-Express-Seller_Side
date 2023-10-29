@@ -27,6 +27,7 @@ class MenuServices {
       final data = event.snapshot.value;
       final res = jsonDecode(jsonEncode(data));
       int i = 1;
+      items.clear();
       while (true && data != null) {
         if (res["ITEM$i"] == null) {
           break;
