@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<HomeProvider>(context).getLocalUsers();
     _selectedScreenIndex =
         Provider.of<HomeProvider>(context).selectedScreenIndex;
     final screenWidth = MediaQuery.of(context).size.width;

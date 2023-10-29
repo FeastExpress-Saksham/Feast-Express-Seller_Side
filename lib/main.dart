@@ -5,6 +5,7 @@ import 'package:munchmate_admin/common/utils/colors.dart';
 import 'package:munchmate_admin/features/contactUs/screens/contact_us_screen.dart';
 import 'package:munchmate_admin/providers/home_provider.dart';
 import 'package:munchmate_admin/providers/menu_provider.dart';
+import 'package:munchmate_admin/providers/recent_orders_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'features/home/screens/home_screen.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => HomeProvider()),
         ChangeNotifierProvider(create: (context) => MenuProvider()),
+        ChangeNotifierProvider(create: (context) => OrderProvider()),
       ],
       child: MaterialApp(
         title: 'MunchMate Admin',

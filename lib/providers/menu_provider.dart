@@ -17,11 +17,13 @@ class MenuProvider extends ChangeNotifier {
 
   void addItem(Item item) async {
     await menuServices.addItem(item);
+    _imageUrl = "";
     notifyListeners();
   }
 
   void updateItem(Item item) async {
     await menuServices.updateItem(item);
+    _imageUrl = "";
     notifyListeners();
   }
 
