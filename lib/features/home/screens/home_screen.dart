@@ -8,6 +8,7 @@ import 'package:munchmate_admin/providers/home_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/utils/colors.dart';
+import '../../../providers/recent_orders_provider.dart';
 import '../../menu/screens/menu_screen.dart';
 import '../widgets/drawer_tile.dart';
 
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<OrderProvider>(context).getLastOrders();
     Provider.of<HomeProvider>(context).getLocalUsers();
     _selectedScreenIndex =
         Provider.of<HomeProvider>(context).selectedScreenIndex;

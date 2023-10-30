@@ -63,8 +63,7 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
               child: Table(
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 columnWidths: const {
-                  0: IntrinsicColumnWidth(flex: 0.85),
-                  3: IntrinsicColumnWidth(flex: 2),
+                  3: IntrinsicColumnWidth(flex: 2.3),
                 },
                 children: [
                   TableRow(
@@ -102,8 +101,8 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                   child: Table(
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                     columnWidths: const {
-                      3: IntrinsicColumnWidth(flex: 3.5),
-                      4: IntrinsicColumnWidth(flex: 1.25),
+                      1: IntrinsicColumnWidth(flex: 0.9),
+                      3: IntrinsicColumnWidth(flex: 5),
                     },
                     children: List<TableRow>.generate(
                       lastOrders.length,
@@ -197,6 +196,10 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                             Table(
                               defaultVerticalAlignment:
                                   TableCellVerticalAlignment.middle,
+                              columnWidths: const {
+                                0: IntrinsicColumnWidth(flex: 0.5),
+                                2: IntrinsicColumnWidth(flex: 0.7),
+                              },
                               children: List.generate(
                                 lastOrders[index].items.length,
                                 (ind) => TableRow(
@@ -253,53 +256,66 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                                         ),
                                       ),
                                     ),
+                                    (ind == lastOrders[index].items.length ~/ 2)
+                                        ? Container(
+                                            alignment: Alignment.center,
+                                            margin: const EdgeInsets.all(5),
+                                            child: Text(
+                                              lastOrders[index]
+                                                  .totalPrice
+                                                  .toString(),
+                                              style: const TextStyle(
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          )
+                                        : const SizedBox(),
+                                    (ind == lastOrders[index].items.length ~/ 2)
+                                        ? Container(
+                                            alignment: Alignment.center,
+                                            margin: const EdgeInsets.symmetric(
+                                                horizontal: 5, vertical: 8),
+                                            child: ToggleButtons(
+                                              color: AppColors.primaryColor,
+                                              fillColor:
+                                                  isDelivered[index][0] == true
+                                                      ? Colors.green
+                                                      : Colors.red,
+                                              onPressed: (i) {
+                                                Provider.of<OrderProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .toggleDeliveryStatus(
+                                                        lastOrders[index]);
+                                              },
+                                              isSelected: isDelivered[index],
+                                              children: [
+                                                Text(
+                                                  "Yes",
+                                                  style: TextStyle(
+                                                    color: isDelivered[index]
+                                                                [0] ==
+                                                            true
+                                                        ? AppColors.whiteColor
+                                                        : AppColors.blackColor,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  "No",
+                                                  style: TextStyle(
+                                                    color: isDelivered[index]
+                                                                [0] ==
+                                                            true
+                                                        ? AppColors.blackColor
+                                                        : AppColors.whiteColor,
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          )
+                                        : const SizedBox(),
                                   ],
                                 ),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.all(5),
-                              child: Text(
-                                lastOrders[index].totalPrice.toString(),
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 5, vertical: 8),
-                              child: ToggleButtons(
-                                color: AppColors.primaryColor,
-                                fillColor: isDelivered[index][0] == true
-                                    ? Colors.green
-                                    : Colors.red,
-                                onPressed: (i) {
-                                  Provider.of<OrderProvider>(context,
-                                          listen: false)
-                                      .toggleDeliveryStatus(lastOrders[index]);
-                                },
-                                isSelected: isDelivered[index],
-                                children: [
-                                  Text(
-                                    "Yes",
-                                    style: TextStyle(
-                                      color: isDelivered[index][0] == true
-                                          ? AppColors.whiteColor
-                                          : AppColors.blackColor,
-                                    ),
-                                  ),
-                                  Text(
-                                    "No",
-                                    style: TextStyle(
-                                      color: isDelivered[index][0] == true
-                                          ? AppColors.blackColor
-                                          : AppColors.whiteColor,
-                                    ),
-                                  )
-                                ],
                               ),
                             ),
                           ],

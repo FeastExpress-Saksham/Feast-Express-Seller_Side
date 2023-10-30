@@ -18,7 +18,6 @@ class OrderProvider extends ChangeNotifier {
 
   void toggleDeliveryStatus(Order order) async {
     await recentOrdersServices.toggleDeliveryStatus(order);
-    notifyListeners();
   }
 
   get lastOrders => _lastOrders;
