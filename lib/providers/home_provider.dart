@@ -4,7 +4,7 @@ import 'package:munchmate_admin/features/home/services/home_services.dart';
 import '../models/user.dart';
 
 class HomeProvider extends ChangeNotifier {
-  int _selectedScreenIndex = 1;
+  int _selectedScreenIndex = 2;
   List<LocalUser> _localUsers = [];
   HomeServices homeServices = HomeServices();
 

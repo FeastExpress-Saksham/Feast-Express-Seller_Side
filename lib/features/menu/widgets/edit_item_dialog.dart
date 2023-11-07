@@ -258,6 +258,8 @@ class _EditItemDialogState extends State<EditItemDialog> {
                                     isAvailable: widget.item.isAvailable,
                                     totalQuantity: int.parse(
                                         textEditingControllers[3].text),
+                                    pendingDelivery:
+                                        widget.item.pendingDelivery,
                                     deliveredQuantity:
                                         widget.item.deliveredQuantity,
                                     lastUpdated: DateTime.now()

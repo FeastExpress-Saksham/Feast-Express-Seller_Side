@@ -44,6 +44,10 @@ class RecentOrdersServices {
                   .firstWhere((element) => element.id == order.items[i].id)
                   .deliveredQuantity +
               order.itemCounts[i],
+          "pendingDelivery": items
+                  .firstWhere((element) => element.id == order.items[i].id)
+                  .pendingDelivery -
+              order.itemCounts[i],
         }).onError((error, stackTrace) => debugPrint(error.toString()));
       }
     } else {
@@ -54,6 +58,10 @@ class RecentOrdersServices {
           "deliveredQuantity": items
                   .firstWhere((element) => element.id == order.items[i].id)
                   .deliveredQuantity -
+              order.itemCounts[i],
+          "pendingDelivery": items
+                  .firstWhere((element) => element.id == order.items[i].id)
+                  .pendingDelivery +
               order.itemCounts[i],
         }).onError((error, stackTrace) => debugPrint(error.toString()));
       }

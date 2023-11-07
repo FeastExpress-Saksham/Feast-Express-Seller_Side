@@ -25,7 +25,8 @@ class _MenuScreenState extends State<MenuScreen> {
     "Price",
     "Available",
     "Delivered",
-    "Total Quantity",
+    "Pending",
+    "Available",
     "Edit"
   ];
   List<Item> items = [];
@@ -34,7 +35,6 @@ class _MenuScreenState extends State<MenuScreen> {
   Widget build(BuildContext context) {
     Provider.of<MenuProvider>(context, listen: false).getItems();
     items = Provider.of<MenuProvider>(context).items;
-    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Expanded(
       child: Container(
@@ -231,6 +231,16 @@ class _MenuScreenState extends State<MenuScreen> {
                               margin: const EdgeInsets.all(5),
                               child: Text(
                                 items[index].deliveredQuantity.toString(),
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.all(5),
+                              child: Text(
+                                items[index].pendingDelivery.toString(),
                                 style: const TextStyle(
                                   fontSize: 15,
                                 ),

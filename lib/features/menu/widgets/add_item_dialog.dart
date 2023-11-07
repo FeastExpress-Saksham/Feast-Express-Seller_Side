@@ -213,6 +213,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
                             isAvailable: false,
                             totalQuantity:
                                 int.parse(textEditingControllers[3].text),
+                            pendingDelivery: 0,
                             deliveredQuantity: 0,
                             lastUpdated:
                                 DateTime.now().toUtc().millisecondsSinceEpoch,
