@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../models/item.dart';
 import '../../../models/order.dart';
 
 class RecentOrdersServices {
@@ -23,7 +24,7 @@ class RecentOrdersServices {
     return lastOrders;
   }
 
-  Future<void> toggleDeliveryStatus(Order order) async {
+  Future<void> toggleDeliveryStatus(Order order, List<Item> items) async {
     DatabaseReference ordersDatabaseReference =
         FirebaseDatabase.instance.ref("orders/${order.id}");
     DatabaseReference usersDatabaseReference = FirebaseDatabase.instance
@@ -34,5 +35,28 @@ class RecentOrdersServices {
     await usersDatabaseReference
         .update({"isDelivered": !order.isDelivered}).onError(
             (error, stackTrace) => debugPrint(error.toString()));
+    if (!order.isDelivered) {
+      for (int i = 0; i < order.items.length; i++) {
+        DatabaseReference itemDatabaseReference =
+            FirebaseDatabase.instance.ref("items/${order.items[i].id}");
+        await itemDatabaseReference.update({
+          "deliveredQuantity": items
+                  .firstWhere((element) => element.id == order.items[i].id)
+                  .deliveredQuantity +
+              order.itemCounts[i],
+        }).onError((error, stackTrace) => debugPrint(error.toString()));
+      }
+    } else {
+      for (int i = 0; i < order.items.length; i++) {
+        DatabaseReference itemDatabaseReference =
+            FirebaseDatabase.instance.ref("items/${order.items[i].id}");
+        await itemDatabaseReference.update({
+          "deliveredQuantity": items
+                  .firstWhere((element) => element.id == order.items[i].id)
+                  .deliveredQuantity -
+              order.itemCounts[i],
+        }).onError((error, stackTrace) => debugPrint(error.toString()));
+      }
+    }
   }
 }

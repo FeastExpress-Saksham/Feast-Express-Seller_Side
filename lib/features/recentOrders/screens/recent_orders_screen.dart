@@ -39,6 +39,12 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
     }
     lastOrders =
         List.from(Provider.of<OrderProvider>(context).lastOrders.reversed);
+    lastOrders.sort((Order firstOrder, Order secondOrder) {
+      if (firstOrder.dateTime < secondOrder.dateTime) {
+        return 1;
+      }
+      return 0;
+    });
     final screenHeight = MediaQuery.of(context).size.height;
     return Expanded(
       child: Container(
@@ -138,7 +144,7 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                               alignment: Alignment.center,
                               margin: const EdgeInsets.all(5),
                               child: Text(
-                                "${(orderDateTime.hour > 12) ? (orderDateTime.hour - 12 < 10) ? '0${orderDateTime.hour - 12}' : orderDateTime.hour - 12 : orderDateTime.hour}:${(orderDateTime.minute < 10) ? '0${orderDateTime.minute}' : orderDateTime.minute} ${(orderDateTime.hour > 12) ? "PM" : "AM"}\n${weekDaysName[orderDateTime.weekday - 1]}\n${orderDateTime.day} ${monthsName[orderDateTime.month - 1]} ${orderDateTime.year}",
+                                "${(orderDateTime.hour > 12) ? (orderDateTime.hour - 12 < 10) ? '0${orderDateTime.hour - 12}' : orderDateTime.hour - 12 : orderDateTime.hour}:${(orderDateTime.minute < 10) ? '0${orderDateTime.minute}' : orderDateTime.minute} ${(orderDateTime.hour >= 12) ? "PM" : "AM"}\n${weekDaysName[orderDateTime.weekday - 1]}\n${orderDateTime.day} ${monthsName[orderDateTime.month - 1]} ${orderDateTime.year}",
                                 style: const TextStyle(
                                   fontSize: 15,
                                 ),
@@ -286,7 +292,8 @@ class _RecentOrdersScreenState extends State<RecentOrdersScreen> {
                                                         context,
                                                         listen: false)
                                                     .toggleDeliveryStatus(
-                                                        lastOrders[index]);
+                                                        lastOrders[index],
+                                                        context);
                                               },
                                               isSelected: isDelivered[index],
                                               children: [
