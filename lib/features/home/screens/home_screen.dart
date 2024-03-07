@@ -115,7 +115,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     physics: const BouncingScrollPhysics(),
                     children: [
                       SizedBox(
-                        height: screenHeight * 0.6,
+                        height: screenHeight * 0.95,
+                        // width: screenWidth * 0.95,
                         child: ListView.builder(
                           itemCount: screens.length,
                           itemBuilder: (context, index) {
